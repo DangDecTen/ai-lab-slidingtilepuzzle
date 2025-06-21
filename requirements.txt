@@ -1,0 +1,2 @@
+pygame>=2.0.0
+# Note: pygame-gui is not needed for the modern interface
