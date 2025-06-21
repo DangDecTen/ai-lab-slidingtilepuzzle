@@ -1,0 +1,5 @@
+puzzle_name      , size, algorithm, heuristic, status    , solution_length, time_taken, space_used, nodes_expanded
+Simple 3x3 Puzzle,    3, a_star   , manhattan, Path found,               2, 7.4e-05   ,          8,              3
+Simple 3x3 Puzzle,    3, bfs      ,          , Path found,               2, 5.8e-05   ,         11,              4
+Simple 3x3 Puzzle,    3, dfs      ,          , Path found,               2, 3.2e-05   ,          8,              3
+Unsolvable Puzzle,    3, bfs      ,          , Unsolvable,               0, 0         ,          0,              0
