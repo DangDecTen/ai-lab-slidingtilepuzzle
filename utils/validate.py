@@ -15,4 +15,4 @@ def is_solvable(state, size):
     else:
         row = state.index(0) // size
         blank_row_from_bottom = size - row
-        return (inversion_count + blank_row_from_bottom) % 2 == 0
+        return (inversion_count + blank_row_from_bottom) % 2 != 0
