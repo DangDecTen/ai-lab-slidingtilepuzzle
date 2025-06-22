@@ -1,12 +1,8 @@
 # Technical Report: AI Search in Sliding Tile Puzzle
 
----
-
 ## 📘 Project Overview
 
 This project applies classical AI search algorithms to the **Sliding Tile Puzzle** (e.g., 3x3 or 4x4) to analyze and visualize the behavior of **Breadth-First Search (BFS)**, **Depth-First Search (DFS)**, and **A\***. The system includes a back-end solver and a graphical user interface (GUI) built with Pygame, supporting visualization, benchmarking, and reporting. The goal is to deepen understanding of search algorithms through implementation, visualization, and structured analysis.
-
----
 
 ## a. 🔍 Problem Modeling
 
@@ -36,8 +32,6 @@ Talk about:
 
 ### Action Cost
 - Each move has a **uniform cost** of `1`.
-
----
 
 ## b. 📚 Algorithm Principles
 
