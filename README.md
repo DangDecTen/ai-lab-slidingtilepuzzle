@@ -122,7 +122,7 @@ python main.py --all --algorithm bfs
 |------|-------------|---------|
 | `--input` | Path to input file | Any `.json` file in `data/input/` |
 | `--all` | Run on all input files | - |
-| `--algorithm` | Search algorithm | `bfs`, `dfs`, `a_star` |
+| `--algorithm` | Search algorithm | `bfs`, `dfs`, `a_star`, `ucs` |
 | `--heuristic` | Heuristic function | `manhattan`, `none` |
 
 ### 📊 Performance Analysis

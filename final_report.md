@@ -11,6 +11,11 @@ This project applies classical AI search algorithms to the **Sliding Tile Puzzle
 ## a. 🔍 Problem Modeling
 
 ### State Space / State Definition
+Talk about:
+- State space, and half solvable
+- Solvability and parity check
+- Reference: https://webdocs.cs.ualberta.ca/~hayward/396/hoven/4stile.pdf
+
 - A **state** is a flat list representing the tile configuration. For a 3x3 board: `[1, 2, 3, 4, 5, 6, 7, 8, 0]`
 - **Total possible states**: `(N^2)!` for size N×N (e.g., `9! = 362,880` for 3x3)
 - Only **half** of those are solvable. Solvability is based on inversion counts and blank row position.
@@ -36,27 +41,65 @@ This project applies classical AI search algorithms to the **Sliding Tile Puzzle
 
 ## b. 📚 Algorithm Principles
 
-### Breadth-First Search (BFS)
-- Explores all neighbors level by level
-- Guarantees **optimal solution** if cost is uniform
+Exhaustive Search (also called Brute Force Search) explores all possible configurations or paths in the search space until a solution is found.
+- **Very slow** and **memory-consuming** for large puzzles like 15-puzzle due to combinatorial explosion.
+- Not intelligent or **guided**. (e.g. UCS)
+- Doesn’t use **heuristics**, so it wastes time on unlikely paths. (e.g. A*)
 
-```mermaid
-graph TD
-Start --> A[1st level]
-A --> B[2nd level]
-B --> C[Goal if found]
-```
+Random walk is so much slower than BFS and DFS that we will ignore it for this problem. Both BFS and DFS are exhaustive so they will solve the problem, however it may take too long.
+- Give the table of dimension and number of states
+- Show runtime analysis if possible
+
+BFS takes too long to solve a 4x4 puzzle so we need a faster algorithm. Why use BFS? To get the shortest solution. DFS will ignore many moves at each stage. How can we solve a 4x4 puzzle in a reasonable amount of time? Is there a way to tell which moves are more promising than other moves?
+- Special Purpose Algorithms
+- Uniform-cost search, named in AI community (or Dijkstra’s Algorithm, in CS community)
+- Heuristic search
+
+### Breadth-First Search (BFS)
+
+An appropriate strategy for our problem, when all actions have the same cost, is **breadth-first search**.
+
+Once we’ve reached a state, we can never find a better path to the state. That also means we can do an **early goal test** (check for a solution as soon as it is generated), rather than the **late goal test** (wait until a node is expanded) that *best-first search* uses.
+
+Performance:
+- Completeness: This is a systematic search strategy that is therefore complete even on infinite state spaces.
+- Optimality: BFS find a solution with minimal number of actions, therefore, it is cost optimal for our problem, where all actions have the same cost. Otherwise, it is not optimal if it does not have this property.
 
 ### Depth-First Search (DFS)
-- Explores deep paths first
-- Uses less memory but may not find the optimal solution
 
-```mermaid
-graph TD
-Start --> A[Go Deep]
-A --> B
-B --> C[Dead End]
-```
+Depth-first search always expands the deepest node in the frontier first.
+
+Bad news:
+- For acyclic state spaces, it may end up expanding the same state many times for acyclic state spaces. In cyclic state spaces it can get stuck in an infinite loop; therefore some implementations of depth-first search check each new node for cycles.
+- In infinite state spaces, depth-first search is not systematic: it can get stuck going down an infinite path.
+
+Why would anyone consider using depth-first search rather than breadth-first or best-first?
+- Where a tree-like search is feasible, depth-first search has much smaller needs for memory.
+- We don’t keep a reached table at all, and the frontier is very small.
+
+Conclusion, our problem is not the best place for BFS, because of the finite and cyclic state spaces. Therefore, we use graph search instead of tree-like search for our problem.
+
+Peformance:
+- Completeness: Yes, for finite state space, and graph search to avoid loop.
+- Optimality: No, return the first found solution.
+
+### Depth-limited Search and Iterative Deepening DFS (IDDFS)
+
+
+
+### Uniform-cost search (UCS) or Dijkstra’s algorithm
+
+When actions have different costs, an obvious choice is to use best-first search.
+
+For our problem, it is, however, the same as BFS when action costs are equal. In this case, UCS is inefficient because of priority queue. A first-in-first-out queue will be faster than a priority queue, and will give us the correct order of nodes: new nodes go to the back of the queue, and old nodes get expanded first.
+
+This is called **Dijkstra’s algorithm** by the theoretical computer science community, and **uniform-cost search** by the AI community.
+
+The idea is that while breadth-first search spreads out in waves of uniform depth—first depth 1, then depth 2, and so on—uniform-cost search spreads out in waves of uniform path-cost. Note that if we had checked for a goal upon generating a node rather than when expanding the lowest-cost node, then we would have returned a higher-cost path.
+
+Performance: Uniform-cost search is complete and is cost-optimal, because the first solution it finds will have a cost that is at least as low as the cost of any other node in the frontier.
+- Completeness: Yes
+- Optimality: Yes
 
 ### A* Search
 - Uses: `f(n) = g(n) + h(n)` where:

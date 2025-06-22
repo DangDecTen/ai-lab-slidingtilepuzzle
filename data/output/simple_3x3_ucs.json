@@ -23,7 +23,7 @@
         8,
         0
     ],
-    "algorithm": "dfs",
+    "algorithm": "ucs",
     "heuristic": null,
     "status": "Path found",
     "solution_path": [
@@ -31,7 +31,7 @@
         "R"
     ],
     "solution_length": 2,
-    "time_taken": 3.9e-05,
-    "space_used": 6,
-    "nodes_expanded": 3
+    "time_taken": 0.000102,
+    "space_used": 7,
+    "nodes_expanded": 4
 }
