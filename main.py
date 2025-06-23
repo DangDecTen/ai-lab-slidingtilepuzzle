@@ -13,13 +13,15 @@ import argparse
 import time
 
 from utils.validate import is_solvable
-from algorithms import bfs, dfs, a_star, ucs
+from algorithms import bfs, dfs, a_star, ucs, ids, bi_bfs
 
 ALGORITHMS = {
     "bfs": bfs.solve,
     "dfs": dfs.solve,
+    "ids": ids.solve,
+    "ucs": ucs.solve,
+    "bi_bfs": bi_bfs.solve,
     "a_star": a_star.solve,
-    "ucs": ucs.solve
 }
 
 HEURISTICS = ["manhattan", None]

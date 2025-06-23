@@ -14,7 +14,6 @@ A Python project for solving N-puzzle problems using classical AI search algorit
 ```
 AI-Fundamentals/
 ├── main.py                    # Run solvers and generate output
-├── gui.py                     # Dummy GUI
 ├── puzzle_gui.py       # Visualize puzzles and solutions
 ├── report.py                  # Summarize output results
 ├── algorithms/                # Core logic of the project
@@ -51,7 +50,7 @@ python main.py --all --algorithm bfs
 |------|-------------|---------|
 | `--input` | Path to input file | Any `.json` file in `data/input/` |
 | `--all` | Run on all input files | - |
-| `--algorithm` | Search algorithm | `bfs`, `dfs`, `a_star`, `ucs` |
+| `--algorithm` | Search algorithm | `bfs`, `dfs`, `ids`, `ucs`, `bi_bfs`, `a_star` |
 | `--heuristic` | Heuristic function | `manhattan`, `none` |
 
 ### GUI

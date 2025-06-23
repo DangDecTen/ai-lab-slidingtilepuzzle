@@ -1,0 +1,41 @@
+{
+    "puzzle_name": "Test1 3x3 Puzzle",
+    "size": 3,
+    "initial_state": [
+        4,
+        1,
+        3,
+        7,
+        2,
+        5,
+        0,
+        8,
+        6
+    ],
+    "goal_state": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        0
+    ],
+    "algorithm": "ids",
+    "heuristic": null,
+    "status": "Path found",
+    "solution_path": [
+        "U",
+        "U",
+        "R",
+        "D",
+        "R",
+        "D"
+    ],
+    "solution_length": 6,
+    "time_taken": 0.000427,
+    "space_used": 6,
+    "nodes_expanded": 107
+}
