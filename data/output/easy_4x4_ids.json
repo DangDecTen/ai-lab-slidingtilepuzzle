@@ -1,0 +1,50 @@
+{
+    "puzzle_name": "Easy 4x4 Puzzle",
+    "size": 4,
+    "initial_state": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        0,
+        15
+    ],
+    "goal_state": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0
+    ],
+    "algorithm": "ids",
+    "heuristic": null,
+    "status": "Path found",
+    "solution_path": [
+        "R"
+    ],
+    "solution_length": 1,
+    "time_taken": 4.9e-05,
+    "space_used": 1,
+    "nodes_expanded": 1
+}

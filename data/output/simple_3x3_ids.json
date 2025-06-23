@@ -1,0 +1,37 @@
+{
+    "puzzle_name": "Simple 3x3 Puzzle",
+    "size": 3,
+    "initial_state": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        0,
+        7,
+        8
+    ],
+    "goal_state": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        0
+    ],
+    "algorithm": "ids",
+    "heuristic": null,
+    "status": "Path found",
+    "solution_path": [
+        "R",
+        "R"
+    ],
+    "solution_length": 2,
+    "time_taken": 5.2e-05,
+    "space_used": 2,
+    "nodes_expanded": 6
+}

@@ -79,7 +79,24 @@ Peformance:
 
 ### Depth-limited Search and Iterative Deepening DFS (IDDFS)
 
+To keep depth-first search from wandering down an infinite path, we can use **depth-limited search**. A poor choice of a depth limit $l$ for the algorithm will make it fail to reach the solution, making it incomplete again. Sometimes a good depth limit can be chosen based on knowledge of the problem. However, for most problems we will not know a good depth limit until we have solved the problem.
 
+**Iterative deepening search** solves the problem of picking a good value for $l$ by trying all values: first 0, then 1, then 2, and so on—until either a solution is found, or the depth limited search returns the *failure* value rather than the *cutoff* value.
+
+Iterative deepening combines many of the benefits of:
+- DFS: Its memory requirements are modest.
+- BFS: Iterative deepening is optimal for problems where all actions have the same cost, and is complete on finite acyclic state spaces, or on any finite state space when we check nodes for cycles all the way up the path.
+
+Each iteration of iterative deepening search generates a new level, in the same way that breadth-first search does, but breadth-first does this by storing all nodes in memory, while iterative-deepening does it by repeating the previous levels, thereby *saving memory at the cost of more time*.
+
+Iterative deepening search may seem wasteful because states near the top of the search tree are re-generated multiple times. But for many state spaces, the total number of nodes generated in the worst case is asymptotically the same as breadth-first search.
+
+Ingeneral, iterative deepening is the preferred uninformed search method when the search state space is larger than can fit in memory and the depth of the solution is not known.
+
+Performance:
+- Completeness: It is complete on finite cyclic state spaces, with cycle checking all the way up the path.
+- Optimality: Yes, if all actions have the same cost.
+- Memory efficient with the cost of time.
 
 ### Uniform-cost search (UCS) or Dijkstra’s algorithm
 
@@ -132,6 +149,20 @@ GUI -->|Visualize| User
 ---
 
 ## d. 📊 Algorithm Comparison
+
+Node expansion is useful for:
+- Algorithm comparison: Fewer expanded nodes usually means smarter search
+- Time prediction: Time is roughly proportional to nodes expanded (in uninformed searches)
+- Benchmarking heuristics: A* with a better heuristic expands fewer nodes
+
+Balance: Time vs Space vs Expansions
+| Metric             | What it tells you                          |
+| ------------------ | ------------------------------------------ |
+| **Time taken**     | Real-world execution cost                  |
+| **Space used**     | Memory footprint (RAM)                     |
+| **Nodes expanded** | Theoretical and practical effort of search |
+
+You need all three to fully evaluate a search algorithm.
 
 ### Theoretical Comparison
 | Algorithm | Time Complexity    | Space Complexity | Complete | Optimal |
