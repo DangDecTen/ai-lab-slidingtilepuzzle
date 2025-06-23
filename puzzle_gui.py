@@ -379,8 +379,7 @@ class ModernPuzzleGUI:
         # Layout - improved spacing
         self.puzzle_area = pygame.Rect(50, 50, 550, 550)
         self.control_area = pygame.Rect(650, 50, 800, 850)
-        
-        # UI Elements
+          # UI Elements
         self.create_ui_elements()
         
         # Load first puzzle if available
@@ -435,11 +434,13 @@ class ModernPuzzleGUI:
         
         y += 100
         
-        # Speed slider
-        self.speed_slider = ModernSlider(x, y + 20, 300, 30, 0.5, 5.0, 2.0)
+        # Speed slider with proper positioning
+        self.speed_slider_y = y + 40  # Store position for label
+        self.speed_slider = ModernSlider(x, self.speed_slider_y, 300, 30, 0.5, 5.0, 2.0)
         
-        self.stats_y = y + 80
-        self.progress_y = y + 380
+        # Update other positions to accommodate speed slider
+        self.stats_y = y + 120
+        self.progress_y = y + 420
     
     def load_puzzle(self, filename):
         """Load a puzzle from input file"""
@@ -841,8 +842,7 @@ class ModernPuzzleGUI:
                 
                 if 'points' in locals():
                     pygame.draw.polygon(self.screen, arrow_color, points)
-                    
-                # Draw move text
+                      # Draw move text
                 move_text = FONT_SMALL.render(f"Move: {current_move}", True, arrow_color)
                 text_rect = move_text.get_rect(center=(empty_x, empty_y + 40))
                 self.screen.blit(move_text, text_rect)
@@ -863,9 +863,9 @@ class ModernPuzzleGUI:
         text = FONT_MEDIUM.render("Heuristic:", True, TEXT_PRIMARY)
         self.screen.blit(text, (x, self.control_area.y + 260))
         
-        # Speed label
+        # Speed label - fixed position using stored coordinate
         text = FONT_MEDIUM.render(f"Animation Speed: {self.speed_slider.get_value():.1f}x", True, TEXT_PRIMARY)
-        self.screen.blit(text, (x, self.control_area.y + 400))
+        self.screen.blit(text, (x, self.speed_slider_y - 20))
         
         # Progress and status
         if self.solution_path:
@@ -998,41 +998,64 @@ class ModernPuzzleGUI:
             step_text = f"{i+1:2d}. {move}"
             step_surf = FONT_SMALL.render(step_text, True, TEXT_PRIMARY)
             self.screen.blit(step_surf, (list_x + 25, move_y))
-            
-            # Draw status
+              # Draw status
             status_surf = FONT_SMALL.render(status_text, True, status_color)
             self.screen.blit(status_surf, (list_x + 10, move_y))
     
     def handle_event(self, event):
         """Handle pygame events"""
-        # Handle dropdown events
-        if self.input_dropdown.handle_event(event):
-            selected_file = self.input_dropdown.get_selected()
-            if selected_file and selected_file != "No files":
-                self.load_puzzle(selected_file)
+        # Handle dropdown events in reverse order (top to bottom z-index)
+        # This ensures the topmost dropdown gets priority
+        dropdowns = [self.heuristic_dropdown, self.algorithm_dropdown, self.input_dropdown]
         
-        if self.algorithm_dropdown.handle_event(event):
-            self.current_algorithm = self.algorithm_dropdown.get_selected()
+        # First, check if any dropdown is open and handle that one first
+        open_dropdown = None
+        for dropdown in dropdowns:
+            if dropdown.open:
+                open_dropdown = dropdown
+                break
         
-        if self.heuristic_dropdown.handle_event(event):
-            self.current_heuristic = self.heuristic_dropdown.get_selected()
-        
-        # Handle button events
-        if self.solve_button.handle_event(event):
-            self.solve_puzzle()
-        if self.reset_button.handle_event(event):
-            self.reset_puzzle()
-        if self.pause_button.handle_event(event):
-            if self.is_auto_solving:
-                self.is_paused = not self.is_paused
-                self.pause_button.text = "Resume" if self.is_paused else "Pause"
-        if self.step_button.handle_event(event):
-            if self.solution_path and not self.is_auto_solving:
-                self.step_forward()
-        
-        # Handle slider events
-        self.speed_slider.handle_event(event)
-        self.animation_speed = self.speed_slider.get_value()
+        if open_dropdown:
+            # If a dropdown is open, only handle events for that dropdown
+            if open_dropdown.handle_event(event):
+                # Update state based on which dropdown was changed
+                if open_dropdown == self.input_dropdown:
+                    selected_file = self.input_dropdown.get_selected()
+                    if selected_file and selected_file != "No files":
+                        self.load_puzzle(selected_file)
+                elif open_dropdown == self.algorithm_dropdown:
+                    self.current_algorithm = self.algorithm_dropdown.get_selected()
+                elif open_dropdown == self.heuristic_dropdown:
+                    self.current_heuristic = self.heuristic_dropdown.get_selected()
+        else:
+            # No dropdown is open, handle all UI elements normally
+            if self.input_dropdown.handle_event(event):
+                selected_file = self.input_dropdown.get_selected()
+                if selected_file and selected_file != "No files":
+                    self.load_puzzle(selected_file)
+            
+            if self.algorithm_dropdown.handle_event(event):
+                self.current_algorithm = self.algorithm_dropdown.get_selected()
+            
+            if self.heuristic_dropdown.handle_event(event):
+                self.current_heuristic = self.heuristic_dropdown.get_selected()
+            
+            # Handle button events
+            if self.solve_button.handle_event(event):
+                self.solve_puzzle()
+            if self.reset_button.handle_event(event):
+                self.reset_puzzle()
+            if self.pause_button.handle_event(event):
+                if self.is_auto_solving:
+                    self.is_paused = not self.is_paused
+                    self.pause_button.text = "Resume" if self.is_paused else "Pause"
+            if self.step_button.handle_event(event):
+                if self.solution_path and not self.is_auto_solving:
+                    self.step_forward()
+            
+            # Handle slider events
+            self.speed_slider.handle_event(event)
+            self.animation_speed = self.speed_slider.get_value()
     
     def update(self, dt):
         """Update the application state"""
@@ -1050,7 +1073,6 @@ class ModernPuzzleGUI:
                     # Animation finished
                     self.is_auto_solving = False
                     print("Animation completed!")
-    
     def draw(self):
         """Draw the entire GUI"""        
         self.screen.fill(BACKGROUND)
@@ -1058,10 +1080,12 @@ class ModernPuzzleGUI:
         # Draw puzzle
         self.draw_puzzle()
         
-        # Draw UI elements
-        self.input_dropdown.draw(self.screen)
-        self.algorithm_dropdown.draw(self.screen)
-        self.heuristic_dropdown.draw(self.screen)
+        # Draw text and statistics first (background layer)
+        self.draw_labels()
+        self.draw_statistics()
+        self.draw_move_list()
+        
+        # Draw buttons (middle layer)
         self.solve_button.draw(self.screen)
         self.reset_button.draw(self.screen)
         self.pause_button.draw(self.screen)
@@ -1069,10 +1093,24 @@ class ModernPuzzleGUI:
         
         self.speed_slider.draw(self.screen)
         
-        # Draw text and statistics
-        self.draw_labels()
-        self.draw_statistics()
-        self.draw_move_list()
+        # Draw dropdowns last (top layer) so they appear on top
+        # First draw closed dropdowns
+        closed_dropdowns = []
+        open_dropdown = None
+        
+        for dropdown in [self.input_dropdown, self.algorithm_dropdown, self.heuristic_dropdown]:
+            if dropdown.open:
+                open_dropdown = dropdown
+            else:
+                closed_dropdowns.append(dropdown)
+        
+        # Draw closed dropdowns first
+        for dropdown in closed_dropdowns:
+            dropdown.draw(self.screen)
+        
+        # Draw open dropdown last so it appears on top
+        if open_dropdown:
+            open_dropdown.draw(self.screen)
         
         pygame.display.flip()
     
