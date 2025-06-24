@@ -198,8 +198,22 @@ From `report.csv`:
 - Refactor GUI to include dropdown selection, search progress bar
 - Export replay as video or GIF
 
----
 
-## ✅ Conclusion
 
-This project successfully implemented and visualized classical AI search algorithms on a real-world problem. The code is modular, testable, and extensible. Results show that A* with Manhattan is the most efficient and optimal under the uniform cost assumption. The GUI helps make abstract algorithms more tangible and explainable to users.
+## References
+
+General Theory
+- Artificial Intelligence: A Modern Approach
+- [Wikipedia](https://en.wikipedia.org/wiki/15_puzzle)
+
+Visualization websites:
+- [VisuAlgo](https://visualgo.net/en)
+- [Red Blob Games](https://www.redblobgames.com/)
+
+Sliding Tile puzzle analysis for Searching
+- Princeton University with [link1](https://www.cs.princeton.edu/courses/archive/fall19/cos226/assignments/8puzzle/specification.php) and [link2](https://www.cs.princeton.edu/courses/archive/spring18/cos226/assignments/8puzzle/index.html)
+- University of [Alberta](https://webdocs.cs.ualberta.ca/~hayward/396/hoven/4stile.pdf)
+- [Reddit r/algorithms](https://www.reddit.com/r/algorithms/comments/150kwby/solving_tile_sliding_puzzles/)
+
+Github
+- Repository from the upper class, [Sudoku Game](https://github.com/tientaiuu/AI-Lab1-SearchAlgos).
